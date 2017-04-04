@@ -2,13 +2,12 @@ import csv
 import requests
 from BeautifulSoup import BeautifulSoup
 
-
-years = ['2015-2016', '2014-2015', '2013-2014', '2012-2013', '2011-2012', '2010-2011']
+years = ['2017/04', '2017/03', '2017/02', '2017/01', '2016/12', '2016/11']
 list_of_rows = []
 
 for year in years:
 	print year
-	response = requests.get("https://columbian.gwu.edu/" + year)
+	response = requests.get("http://m.nationals.mlb.com/roster/transactions/" + year)
 	html = response.content
 
 	soup = BeautifulSoup(html)
@@ -21,7 +20,7 @@ for year in years:
 			list_of_cells.append(cell.text.encode('utf-8'))
 		list_of_rows.append(list_of_cells)
     
-outfile = open("grants.csv", "wb")
+outfile = open("transactions.csv", "wb")
 writer = csv.writer(outfile)
-writer.writerow(["Year", "Department", "Faculty", "Sponsor", "Title"])
+writer.writerow(["Date", "Url", "Text"])
 writer.writerows(list_of_rows)
